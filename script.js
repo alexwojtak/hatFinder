@@ -95,8 +95,9 @@ function checkLoss() {
 	}
 }
 
-let playGame = function(){
 	const myField = new Field(Field.generateField(32,16));
+let playGame = function(){
+	//const myField = new Field(Field.generateField(32,16));
 	let hatx = Math.floor(32*Math.random());
 	let haty = Math.floor(16*Math.random());
 	myField.level[haty][hatx] = 2;
