@@ -10,6 +10,11 @@ h1{
 	position: absolute;
 	z-index: 1;
 }
+.mainText{
+	font-weight: bold;
+	text-align: center;
+	color: white;
+}
 #BGMusic{
 	hidden: "hidden";
 }
