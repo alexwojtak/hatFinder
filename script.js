@@ -1,4 +1,5 @@
 document.onkeydown = checkKey;
+var gameEnd = false;
 
 class Field {
 	constructor (level){
@@ -84,6 +85,7 @@ function checkWin() {
 	if (myField.level[playery][playerx] === 2) {
 		console.log("win");
 		document.getElementById("winMessage").style.display=("inline");
+		gameEnd = true;
 	}
 }
 
@@ -92,6 +94,7 @@ function checkLoss() {
 	if(myField.level[playery][playerx] === 1){
 		document.getElementById("loseMessage").style.display=("inline");
 		console.log("lose");
+		gameEnd = true;
 	}
 }
 
@@ -110,7 +113,7 @@ function checkKey(e) {
     e = e || window.event;
 
     if (e.keyCode === 38 || e.keyCode === 87) {
-	if (playery>0){
+	if (playery>0 && !gameEnd){
 	    	playery--;
 		//Move player 24px (player dimension) in the desired direction
 		document.getElementById("playerChar").style.top=((24 * playery) + 'px');
@@ -119,7 +122,7 @@ function checkKey(e) {
 	}
     }
     else if (e.keyCode == 40 || e.keyCode === 83) {
-        if (playery<15){
+        if (playery<15 && !gameEnd){
         	playery++;
 		document.getElementById("playerChar").style.top=((24 * playery) + 'px');
 		checkWin();
@@ -128,7 +131,7 @@ function checkKey(e) {
     }
     else if (e.keyCode == 37 || e.keyCode === 65) {
 //Moving left
-	if (playerx>0){
+	if (playerx>0 && !gameEnd){
 	    	playerx--;
 		document.getElementById("playerChar").style.left=((24 * playerx) + 'px');
 		checkWin();
@@ -137,7 +140,7 @@ function checkKey(e) {
     }
     else if (e.keyCode == 39 || e.keyCode === 68) {
 //Moving right
-	if (playerx<31){
+	if (playerx<31 && !gameEnd){
 	    	playerx++;
 		document.getElementById("playerChar").style.left=((24 * playerx) + 'px');
 		checkWin();
