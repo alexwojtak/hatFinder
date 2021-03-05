@@ -1,34 +1,5 @@
 document.onkeydown = checkKey;
 
-let playerx = 0;
-let playery = 0;
-let doorx = 29;
-let doory = 8;
-
-//Stop arrow keys moving the screen around
-window.addEventListener("keydown", function(e) {
-    // space and arrow keys
-    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-        e.preventDefault();
-    }
-}, false);
-
-//Check win condition
-function checkWin() {
-	//console.log("Position x is " + playerx + " and position y is " + playery);
-	if (playerx === doorx && playery === doory) {
-		console.log("win");
-		document.getElementById("winMessage").style.display=("inline");
-	}
-}
-
-function checkLoss() {
-	if(myField.level[playery][playerx] === 1){
-		document.getElementById("loseMessage").style.display=("inline");
-		console.log("lose");
-	}
-}
-
 class Field {
 	constructor (level){
 		this._level = level;
@@ -37,7 +8,27 @@ class Field {
 	get level(){
 		return this._level;
 	}
+	
+	set level(newLevel){
+		this._level = newLevel;
+	}
 
+	static generateField(width, height){
+		let tempField = [];
+		for(let i=0; i<height; i++){
+			tempField.push([]);
+			for(let j=0; j<width; j++){
+				if (Math.random()>0.1){
+					tempField[i].push(0);
+				}
+				else{
+					tempField[i].push(1);
+				}
+			}
+		}
+		tempField[Math.floor(width*Math.random())][Math.floor(height*Math.random())] = 2;
+		return(tempField);
+	}
 	//Print Field method creates full HTML string to add via innerHTML. 
 	//Operation is expensive, so must be done in one go.
 	printField(){
@@ -74,7 +65,38 @@ class Field {
 	}
 }
 
-const myField = new Field([[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+let playerx = 0;
+let playery = 0;
+let doorx = 29;
+let doory = 8;
+
+//Stop arrow keys moving the screen around
+window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
+
+//Check win condition
+function checkWin() {
+	//console.log("Position x is " + playerx + " and position y is " + playery);
+	if (myField.level[playery][playerx] === 2) {
+		console.log("win");
+		document.getElementById("winMessage").style.display=("inline");
+	}
+}
+
+function checkLoss() {
+	if(myField.level[playery][playerx] === 1){
+		document.getElementById("loseMessage").style.display=("inline");
+		console.log("lose");
+	}
+}
+
+
+/*const myField = new Field([[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	                [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -89,8 +111,13 @@ const myField = new Field([[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 	                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]);
-myField.printField();
+	                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]);*/
+const myField = new Field(Field.generateField(32,16));
+
+let playGame = function(){	
+	//console.log(Field.generateField(4, 3));
+	myField.printField();
+}
 
 //Keys to move the player
 function checkKey(e) {
